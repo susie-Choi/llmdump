@@ -1,5 +1,5 @@
 #!/bin/bash
-# Create a new release for ROTA
+# Create a new release for LLMDump
 
 set -e
 
@@ -50,6 +50,6 @@ echo "✅ Release tag created successfully!"
 echo ""
 echo "Next steps:"
 echo "1. GitHub Actions will automatically create the release"
-echo "2. Check: https://github.com/susie-Choi/rota/releases"
+echo "2. Check: https://github.com/susie-Choi/llmdump/releases"
 echo "3. PyPI will automatically publish the package"
-echo "4. Check: https://pypi.org/project/rota/${VERSION}/"
+echo "4. Check: https://pypi.org/project/llmdump/${VERSION}/"

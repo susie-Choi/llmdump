@@ -1,4 +1,4 @@
-"""ROTA Command Line Interface."""
+"""LLMDump Command Line Interface."""
 
 import click
 import logging
@@ -21,9 +21,9 @@ logging.basicConfig(
 @click.pass_context
 def cli(ctx, config):
     """
-    ROTA - Real-time Offensive Threat Assessment
+    LLMDump - LLM-powered Zero-Day Vulnerability Prediction
     
-    Zero-day vulnerability prediction using behavioral signals.
+    Zero-day vulnerability prediction using LLM-based signal analysis.
     """
     ctx.ensure_object(dict)
     

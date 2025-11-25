@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Unified Neo4j data loading script for ROTA.
+Unified Neo4j data loading script for LLMDump.
 
 Loads collected data into Neo4j graph database:
 - CVE data
@@ -18,8 +18,8 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from rota.hub.connection import Neo4jConnection
-from rota.hub.loader import DataLoader
+from llmdump.hub.connection import Neo4jConnection
+from llmdump.hub.loader import DataLoader
 
 
 def load_cve(loader, args):
@@ -109,7 +109,7 @@ def load_advisory(loader, args):
 def load_all(loader, args):
     """Load all data sources to Neo4j."""
     print("=" * 80)
-    print("ROTA Neo4j Loading - Loading All Sources")
+    print("LLMDump Neo4j Loading - Loading All Sources")
     print("=" * 80)
     print()
     
@@ -149,7 +149,7 @@ def load_all(loader, args):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Unified Neo4j data loading for ROTA",
+        description="Unified Neo4j data loading for LLMDump",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:

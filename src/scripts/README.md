@@ -1,6 +1,6 @@
-# ROTA Scripts
+# LLMDump Scripts
 
-Unified scripts for ROTA data collection, loading, and system management.
+Unified scripts for LLMDump data collection, loading, and system management.
 
 ---
 
@@ -67,7 +67,7 @@ python src/scripts/load_to_neo4j.py --all --uri bolt://localhost:7687 --password
 ---
 
 ### `check_status.py` - System Status
-Check ROTA system status including data files, environment, and Neo4j.
+Check LLMDump system status including data files, environment, and Neo4j.
 
 **Usage**:
 ```bash
@@ -225,6 +225,6 @@ EOF
 
 ---
 
-**ROTA v0.2.0** - Unified Scripts
+**LLMDump v0.2.0** - Unified Scripts
 
 *For detailed usage, see the documentation in `docs/`*

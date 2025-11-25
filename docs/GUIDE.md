@@ -1,6 +1,6 @@
-# ROTA User Guide
+# LLMDump User Guide
 
-Complete guide for using ROTA (Real-time Offensive Threat Assessment) to detect vulnerabilities in software supply chains.
+Complete guide for using LLMDump to predict zero-day vulnerabilities in software supply chains.
 
 ---
 
@@ -25,8 +25,8 @@ Complete guide for using ROTA (Real-time Offensive Threat Assessment) to detect 
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/susie-Choi/rota.git
-cd rota
+git clone https://github.com/susie-Choi/llmdump.git
+cd llmdump
 
 # 2. Install dependencies
 pip install -r requirements.txt
@@ -67,7 +67,7 @@ python src/scripts/check_status.py
 #### Step 4: Run Analysis
 
 ```python
-from rota.oracle.integrated_oracle import IntegratedOracle
+from llmdump.oracle.integrated_oracle import IntegratedOracle
 
 # Initialize oracle
 oracle = IntegratedOracle(use_rag=True)
@@ -89,13 +89,13 @@ print(f"High-Risk Commits: {len(assessment.high_risk_commits)}")
 
 ## System Overview
 
-### What is ROTA?
+### What is LLMDump?
 
-ROTA is an integrated vulnerability prediction system that analyzes open-source software supply chains to detect potential zero-day vulnerabilities **before** they are exploited.
+LLMDump is an LLM-powered vulnerability prediction system that analyzes open-source software supply chains to detect potential zero-day vulnerabilities **before** they are exploited.
 
 ### Core Innovation
 
-Unlike traditional vulnerability scanners that detect **known** CVEs, ROTA predicts **future** vulnerabilities by analyzing:
+Unlike traditional vulnerability scanners that detect **known** CVEs, LLMDump predicts **future** vulnerabilities by analyzing:
 - Individual commit risk patterns
 - Developer behavior anomalies
 - Supply chain propagation impact
@@ -208,8 +208,8 @@ data/
 
 #### 1. Clone Repository
 ```bash
-git clone https://github.com/susie-Choi/rota.git
-cd rota
+git clone https://github.com/susie-Choi/llmdump.git
+cd llmdump
 ```
 
 #### 2. Install Dependencies
@@ -300,8 +300,8 @@ if high_risk:
 Assess overall project vulnerability risk.
 
 ```python
-from rota.oracle.predictor import VulnerabilityOracle
-from rota.spokes.github import GitHubSignalsCollector
+from llmdump.oracle.predictor import VulnerabilityOracle
+from llmdump.spokes.github import GitHubSignalsCollector
 
 # Collect signals
 collector = GitHubSignalsCollector()
@@ -329,7 +329,7 @@ print(f"Reasoning: {prediction.reasoning}")
 Understand downstream impact of a vulnerability.
 
 ```python
-from rota.hub.supply_chain import SupplyChainAnalyzer
+from llmdump.hub.supply_chain import SupplyChainAnalyzer
 
 analyzer = SupplyChainAnalyzer()
 
@@ -356,7 +356,7 @@ if impact.critical_dependents:
 Complete analysis from data collection to decision.
 
 ```python
-from rota.oracle.integrated_oracle import IntegratedOracle
+from llmdump.oracle.integrated_oracle import IntegratedOracle
 
 oracle = IntegratedOracle(use_rag=True)
 
@@ -685,13 +685,13 @@ with open(f"assessments/{datetime.now().isoformat()}.json", "w") as f:
 
 ## Need Help?
 
-- **GitHub Issues**: https://github.com/susie-Choi/rota/issues
-- **Documentation**: https://github.com/susie-Choi/rota/tree/main/docs
+- **GitHub Issues**: https://github.com/susie-Choi/llmdump/issues
+- **Documentation**: https://github.com/susie-Choi/llmdump/tree/main/docs
 - **Development Guide**: See `docs/DEVELOPMENT.md`
 - **Research Plan**: See `docs/RESEARCH.md`
 
 ---
 
-**ROTA v0.2.0** - Real-time Offensive Threat Assessment
+**LLMDump v0.2.0** - LLM-powered Zero-Day Vulnerability Prediction
 
-*Detecting vulnerabilities before CVE publication through commit analysis and supply chain intelligence*
+*Detecting vulnerabilities before CVE publication through LLM-based signal analysis*

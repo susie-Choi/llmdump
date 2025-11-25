@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-System status checker for ROTA.
+System status checker for LLMDump.
 
 Checks:
 - Data files existence
@@ -87,7 +87,7 @@ def check_neo4j():
     print("=" * 80)
     
     try:
-        from rota.hub.connection import Neo4jConnection
+        from llmdump.hub.connection import Neo4jConnection
         
         with Neo4jConnection() as conn:
             print("✅ Neo4j connection successful")
@@ -128,7 +128,7 @@ def check_system():
     """Check overall system status."""
     print("\n")
     print("=" * 80)
-    print("ROTA System Status Check")
+    print("LLMDump System Status Check")
     print("=" * 80)
     print()
     
@@ -160,7 +160,7 @@ def check_system():
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Check ROTA system status",
+        description="Check LLMDump system status",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:

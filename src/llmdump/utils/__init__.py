@@ -1,7 +1,7 @@
 """
 Utils - Utility Functions
 
-Common utilities used across ROTA:
+Common utilities used across LLMDump:
 - Logging configuration
 - Date/time utilities
 - File I/O helpers

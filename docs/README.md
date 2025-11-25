@@ -7,7 +7,7 @@ Complete documentation for the LLMDump (Security Analysis for LLM-Generated Cont
 ## 📚 Documentation Index
 
 ### [GUIDE.md](GUIDE.md) - User Guide
-Complete guide for using ROTA to detect vulnerabilities in software supply chains.
+Complete guide for using LLMDump to predict zero-day vulnerabilities in software supply chains.
 
 **Contents**:
 - Quick Start (5-minute setup)
@@ -24,7 +24,7 @@ Complete guide for using ROTA to detect vulnerabilities in software supply chain
 ---
 
 ### [DEVELOPMENT.md](DEVELOPMENT.md) - Development Guide
-Guide for developers working on ROTA.
+Guide for developers working on LLMDump.
 
 **Contents**:
 - Performance Optimization Strategies
@@ -37,7 +37,7 @@ Guide for developers working on ROTA.
 ---
 
 ### [RESEARCH.md](RESEARCH.md) - Research Plan
-Research plan for ROTA multimodal extension: RoKRAT APT detection.
+Research plan for LLMDump: LLM-powered zero-day vulnerability prediction.
 
 **Contents**:
 - Executive Summary
@@ -75,7 +75,7 @@ Research plan for ROTA multimodal extension: RoKRAT APT detection.
 ## 📁 Project Structure
 
 ```
-rota/
+llmdump/
 ├── README.md                     # Project overview
 ├── CHANGELOG.md                  # Version history
 ├── docs/
@@ -84,7 +84,7 @@ rota/
 │   ├── DEVELOPMENT.md            # Development guide (consolidated)
 │   └── RESEARCH.md               # Research plan (consolidated)
 ├── src/
-│   ├── rota/                     # Main package
+│   ├── llmdump/                  # Main package
 │   └── scripts/                  # Utility scripts
 ├── data/
 │   ├── input/                    # Input data
@@ -97,7 +97,7 @@ rota/
 
 ## 🆘 Need Help?
 
-- **GitHub Issues**: https://github.com/susie-Choi/rota/issues
+- **GitHub Issues**: https://github.com/susie-Choi/llmdump/issues
 - **Main README**: [../README.md](../README.md)
 - **User Guide**: [GUIDE.md](GUIDE.md)
 - **Development Guide**: [DEVELOPMENT.md](DEVELOPMENT.md)

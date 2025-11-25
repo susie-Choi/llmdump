@@ -1,4 +1,4 @@
-# Create a new release for ROTA
+# Create a new release for LLMDump
 param(
     [Parameter(Mandatory=$true)]
     [string]$Version
@@ -46,6 +46,6 @@ Write-Host "✅ Release tag created successfully!" -ForegroundColor Green
 Write-Host ""
 Write-Host "Next steps:"
 Write-Host "1. GitHub Actions will automatically create the release"
-Write-Host "2. Check: https://github.com/susie-Choi/rota/releases"
+Write-Host "2. Check: https://github.com/susie-Choi/llmdump/releases"
 Write-Host "3. PyPI will automatically publish the package"
-Write-Host "4. Check: https://pypi.org/project/rota/$Version/"
+Write-Host "4. Check: https://pypi.org/project/llmdump/$Version/"

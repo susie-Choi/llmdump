@@ -1,6 +1,6 @@
-# ROTA Development Guide
+# LLMDump Development Guide
 
-Guide for developers working on ROTA, including performance optimization, release management, and temporal validation.
+Guide for developers working on LLMDump, including performance optimization, release management, and temporal validation.
 
 ---
 
@@ -245,18 +245,18 @@ git push origin v0.1.4
 
 #### 4. Verify Release
 
-1. **GitHub Release**: https://github.com/susie-Choi/rota/releases
+1. **GitHub Release**: https://github.com/susie-Choi/llmdump/releases
    - Check that release was created
    - Verify release notes from CHANGELOG
 
-2. **PyPI**: https://pypi.org/project/rota/
+2. **PyPI**: https://pypi.org/project/llmdump/
    - Wait 1-2 minutes for Actions to complete
    - Verify new version is published
 
 3. **Test Installation**:
    ```bash
-   pip install --upgrade rota
-   rota --version
+   pip install --upgrade llmdump
+   llmdump --version
    ```
 
 ### Release Checklist
@@ -272,7 +272,7 @@ Before creating a release:
 
 ### Version Numbering
 
-ROTA follows [Semantic Versioning](https://semver.org/):
+LLMDump follows [Semantic Versioning](https://semver.org/):
 
 - **MAJOR** (1.0.0): Breaking changes
 - **MINOR** (0.1.0): New features, backwards compatible
@@ -360,7 +360,7 @@ git push origin v0.1.4
 If a release has critical issues:
 
 1. **Yank from PyPI** (doesn't delete, marks as unavailable):
-   Go to https://pypi.org/manage/project/rota/releases/ and yank the version
+   Go to https://pypi.org/manage/project/llmdump/releases/ and yank the version
 
 2. **Create hotfix release**:
    ```bash

@@ -1,4 +1,4 @@
-"""GitHub Security Advisory collector for ROTA."""
+"""GitHub Security Advisory collector for LLMDump."""
 
 import logging
 import os

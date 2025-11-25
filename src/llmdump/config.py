@@ -1,4 +1,4 @@
-"""Configuration management for ROTA."""
+"""Configuration management for LLMDump."""
 
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -9,8 +9,8 @@ import yaml
 
 
 @dataclass
-class ROTAConfig:
-    """Main ROTA configuration."""
+class LLMDumpConfig:
+    """Main LLMDump configuration."""
     
     # Data directories
     data_dir: Path = Path("data")
@@ -46,7 +46,7 @@ class ROTAConfig:
         self.processed_dir.mkdir(parents=True, exist_ok=True)
     
     @classmethod
-    def from_yaml(cls, path: Path) -> 'ROTAConfig':
+    def from_yaml(cls, path: Path) -> 'LLMDumpConfig':
         """Load configuration from YAML file."""
         with open(path, 'r') as f:
             data = yaml.safe_load(f)
@@ -89,28 +89,28 @@ class ROTAConfig:
 
 
 # Global config instance
-_config: Optional[ROTAConfig] = None
+_config: Optional[LLMDumpConfig] = None
 
 
-def get_config() -> ROTAConfig:
+def get_config() -> LLMDumpConfig:
     """Get global configuration instance."""
     global _config
     if _config is None:
-        _config = ROTAConfig()
+        _config = LLMDumpConfig()
     return _config
 
 
-def set_config(config: ROTAConfig):
+def set_config(config: LLMDumpConfig):
     """Set global configuration instance."""
     global _config
     _config = config
 
 
-def load_config(path: Path) -> ROTAConfig:
+def load_config(path: Path) -> LLMDumpConfig:
     """Load and set global configuration from file."""
-    config = ROTAConfig.from_yaml(path)
+    config = LLMDumpConfig.from_yaml(path)
     set_config(config)
     return config
 
 
-__all__ = ['ROTAConfig', 'get_config', 'set_config', 'load_config']
+__all__ = ['LLMDumpConfig', 'get_config', 'set_config', 'load_config']

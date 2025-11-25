@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from rota.oracle.integrated_oracle import IntegratedOracle
+from llmdump.oracle.integrated_oracle import IntegratedOracle
 
 load_dotenv()
 
@@ -14,7 +14,7 @@ def test_integrated_assessment(repository: str = None):
     """Test comprehensive integrated risk assessment."""
     
     print("=" * 80)
-    print("ROTA INTEGRATED ORACLE TEST")
+    print("LLMDump INTEGRATED ORACLE TEST")
     print("=" * 80)
     
     # Select repository

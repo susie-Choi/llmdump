@@ -1,15 +1,15 @@
-"""Version information for ROTA."""
+"""Version information for LLMDump."""
 
 # Version is managed in pyproject.toml
 # This file imports it for backward compatibility
 try:
     from importlib.metadata import version
-    __version__ = version("rota")
+    __version__ = version("llmdump")
 except Exception:
     # Fallback for development
     __version__ = "0.2.0"
 
-__title__ = "rota"
-__description__ = "Real-time Offensive Threat Assessment - Zero-day vulnerability prediction"
-__author__ = "ROTA Research Team"
+__title__ = "llmdump"
+__description__ = "LLM-powered zero-day vulnerability prediction system"
+__author__ = "Susie Choi"
 __license__ = "MIT"

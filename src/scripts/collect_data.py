@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Unified data collection script for ROTA.
+Unified data collection script for LLMDump.
 
 Collects data from multiple sources:
 - CVE data from NVD
@@ -18,12 +18,12 @@ from pathlib import Path
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from rota.spokes.cve import CVECollector
-from rota.spokes.epss import EPSSCollector
-from rota.spokes.kev import KEVCollector
-from rota.spokes.github import GitHubSignalsCollector
-from rota.spokes.exploit_db import ExploitDBCollector
-from rota.spokes.github_advisory import GitHubAdvisoryCollector
+from llmdump.spokes.cve import CVECollector
+from llmdump.spokes.epss import EPSSCollector
+from llmdump.spokes.kev import KEVCollector
+from llmdump.spokes.github import GitHubSignalsCollector
+from llmdump.spokes.exploit_db import ExploitDBCollector
+from llmdump.spokes.github_advisory import GitHubAdvisoryCollector
 
 
 def collect_cve(args):
@@ -116,7 +116,7 @@ def collect_advisory(args):
 def collect_all(args):
     """Collect all data sources."""
     print("=" * 80)
-    print("ROTA Data Collection - Collecting All Sources")
+    print("LLMDump Data Collection - Collecting All Sources")
     print("=" * 80)
     print()
     
@@ -153,7 +153,7 @@ def collect_all(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Unified data collection for ROTA",
+        description="Unified data collection for LLMDump",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:

@@ -1,7 +1,7 @@
 """
 CLI - Command Line Interface
 
-ROTA command-line interface organized by module:
+LLMDump command-line interface organized by module:
 - spokes: Data collection commands
 - hub: Data integration commands
 - wheel: Clustering commands
