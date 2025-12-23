@@ -253,3 +253,8 @@ def historical_backtesting(cves, prediction_days_before=30):
 3. **Train/Test Distribution Comparison**: 시간대별 CVE 분포 (분포 차이 확인)
 
 
+
+
+
+
+

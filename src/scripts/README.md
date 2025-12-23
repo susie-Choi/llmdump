@@ -1,230 +1,80 @@
 # LLMDump Scripts
 
-Unified scripts for LLMDump data collection, loading, and system management.
+AI CVE 분석 및 LLM 취약점 탐지 실험을 위한 스크립트 모음입니다.
 
----
+## 핵심 스크립트
 
-## 🚀 Main Scripts
+### `analyze_ai_cve.py` - AI CVE 분석
 
-### `collect_data.py` - Data Collection
-Unified script for collecting data from all sources.
+AI/ML 관련 CVE를 수집하고 분석합니다.
 
-**Usage**:
 ```bash
-# Collect all data sources
-python src/scripts/collect_data.py --all
-
-# Collect specific sources
-python src/scripts/collect_data.py --cve
-python src/scripts/collect_data.py --epss
-python src/scripts/collect_data.py --kev
-python src/scripts/collect_data.py --commits --repository django/django
-python src/scripts/collect_data.py --exploits
-python src/scripts/collect_data.py --advisory
-
-# Collect CVE data for date range
-python src/scripts/collect_data.py --cve --start-date 2024-01-01 --end-date 2024-12-31
-
-# Collect GitHub commits
-python src/scripts/collect_data.py --commits --repository django/django --days-back 30
+python src/scripts/analyze_ai_cve.py
 ```
 
-**Data Sources**:
-- CVE data from NVD
-- EPSS scores
-- KEV catalog
-- GitHub commits
-- Exploit-DB data
-- GitHub advisories
+**출력**:
+- `submission/data/analysis/ai_cves.jsonl` - AI 관련 CVE 목록
+- `submission/data/analysis/summary.json` - 분석 요약
+- `submission/data/analysis/figures/` - 시각화 결과 (fig1~fig4.jpg)
 
----
+### `collect_vulnerable_code.py` - 커밋 수집
 
-### `load_to_neo4j.py` - Neo4j Loading
-Unified script for loading collected data into Neo4j.
+GitHub 프로젝트의 전체 커밋과 코드를 수집합니다.
 
-**Usage**:
 ```bash
-# Load all data sources
-python src/scripts/load_to_neo4j.py --all
-
-# Load specific sources
-python src/scripts/load_to_neo4j.py --cve
-python src/scripts/load_to_neo4j.py --epss
-python src/scripts/load_to_neo4j.py --kev
-python src/scripts/load_to_neo4j.py --commits
-python src/scripts/load_to_neo4j.py --exploits
-python src/scripts/load_to_neo4j.py --advisory
-
-# Load with custom Neo4j connection
-python src/scripts/load_to_neo4j.py --all --uri bolt://localhost:7687 --password mypassword
+python src/scripts/collect_vulnerable_code.py
 ```
 
-**Requirements**:
-- Neo4j running (use `docker-compose up -d`)
-- Data files in `data/input/` directory
-- Environment variables set (NEO4J_URI, NEO4J_PASSWORD)
+**출력**:
+- `submission/data/analysis/smolagents/commits.json` - 커밋 목록
+- `submission/data/analysis/smolagents/commits_with_code.jsonl` - 코드 포함 커밋
 
----
+### `experiment_code_analysis.py` - LLM 탐지 실험
 
-### `check_status.py` - System Status
-Check LLMDump system status including data files, environment, and Neo4j.
+수집된 코드를 LLM으로 분석하여 취약점을 탐지합니다.
 
-**Usage**:
 ```bash
-# Check full system status
-python src/scripts/check_status.py
-
-# Check only data files
-python src/scripts/check_status.py --data-only
-
-# Check only environment variables
-python src/scripts/check_status.py --env-only
-
-# Check only Neo4j
-python src/scripts/check_status.py --neo4j-only
+python src/scripts/experiment_code_analysis.py
 ```
 
-**Checks**:
-- Data files existence and size
-- Environment variables (GITHUB_TOKEN, GEMINI_API_KEY, NEO4J_*)
-- Neo4j connection and data statistics
+**출력**:
+- `submission/data/analysis/experiment/analysis_results.jsonl` - 분석 결과
+- `submission/data/analysis/experiment/experiment_summary.json` - 실험 요약
 
----
+## 인프라 스크립트
 
-## 📋 Quick Start Workflow
+### `collect_data.py` - 기본 데이터 수집
 
-### 1. Check System Status
-```bash
-python src/scripts/check_status.py
-```
+CVE, EPSS, KEV 등 기본 데이터를 수집합니다.
 
-### 2. Collect Data
 ```bash
 python src/scripts/collect_data.py --all
+python src/scripts/collect_data.py --cve --start-date 2024-01-01
 ```
 
-### 3. Load to Neo4j
+### `load_to_neo4j.py` - Neo4j 로딩
+
+수집된 데이터를 Neo4j에 로드합니다.
+
 ```bash
 python src/scripts/load_to_neo4j.py --all
 ```
 
-### 4. Verify
+### `check_status.py` - 상태 확인
+
+시스템 상태를 확인합니다.
+
 ```bash
-python src/scripts/check_status.py --neo4j-only
+python src/scripts/check_status.py
 ```
 
----
+## 환경 변수
 
-## 🗂️ Additional Scripts
-
-### `create_release.sh` / `create_release.ps1`
-Create and publish a new release.
-
-**Usage**:
-```bash
-# Linux/Mac
-./src/scripts/create_release.sh 0.2.1
-
-# Windows
-.\src\scripts\create_release.ps1 0.2.1
-```
-
-### `collect_image_dataset.py`
-Collect image dataset for multimodal research.
-
-### `red_team_attacks.py`
-Red team attack simulation scripts.
-
----
-
-## 📁 Archive
-
-Old scripts have been moved to `archive/` directory for reference:
-- `archive/collection/` - Individual collection scripts
-- `archive/loading/` - Individual loading scripts
-- `archive/analysis/` - Analysis scripts
-- `archive/paper/` - Paper-related scripts
-- `archive/deployment/` - Deployment scripts
-
-These are kept for backward compatibility and reference, but the unified scripts above should be used for new work.
-
----
-
-## 🔧 Environment Variables
-
-Required environment variables (set in `.env` file):
+`.env` 파일에 설정:
 
 ```bash
-# GitHub API
 GITHUB_TOKEN=your_github_token
-
-# Gemini LLM
 GEMINI_API_KEY=your_gemini_api_key
-
-# Neo4j
-NEO4J_URI=bolt://localhost:7687
-NEO4J_USER=neo4j
-NEO4J_PASSWORD=your_password
-```
-
----
-
-## 📚 Documentation
-
-- **User Guide**: [docs/GUIDE.md](../../docs/GUIDE.md)
-- **Development Guide**: [docs/DEVELOPMENT.md](../../docs/DEVELOPMENT.md)
-- **Research Plan**: [docs/RESEARCH.md](../../docs/RESEARCH.md)
-
----
-
-## 🆘 Troubleshooting
-
-### Data Collection Issues
-
-**Problem**: GitHub rate limiting
-```bash
-# Solution: Set GITHUB_TOKEN in .env
-GITHUB_TOKEN=your_token_here
-```
-
-**Problem**: No data collected
-```bash
-# Solution: Check date range or repository name
-python src/scripts/collect_data.py --cve --start-date 2024-01-01 --end-date 2024-12-31
-```
-
-### Neo4j Loading Issues
-
-**Problem**: Connection failed
-```bash
-# Solution: Check Neo4j is running
-docker ps | grep neo4j
-
-# Start Neo4j if not running
-docker-compose up -d
-```
-
-**Problem**: Data file not found
-```bash
-# Solution: Collect data first
-python src/scripts/collect_data.py --all
-```
-
-### Status Check Issues
-
-**Problem**: Environment variables not set
-```bash
-# Solution: Create .env file
-cat > .env << EOF
-GITHUB_TOKEN=your_token
-GEMINI_API_KEY=your_key
 NEO4J_URI=bolt://localhost:7687
 NEO4J_PASSWORD=your_password
-EOF
 ```
-
----
-
-**LLMDump v0.2.0** - Unified Scripts
-
-*For detailed usage, see the documentation in `docs/`*
