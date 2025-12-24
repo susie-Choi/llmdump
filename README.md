@@ -1,27 +1,34 @@
-# LLMDump: LLM-Powered Zero-Day Vulnerability Prediction
+# LLMDump: Multi-Agent LLM Ensemble for Pre-CVE Vulnerability Detection
 
 AI 시스템의 취약점을 CVE 공개 전에 탐지하는 LLM 기반 예측 시스템입니다.
+
+## Quick Start (빠른 실행)
+
+```bash
+# 1. Python 3.10+ 필요
+python --version
+
+# 2. 패키지 설치
+pip install -e .
+
+# 3. 환경 변수 설정
+cp .env.example .env
+# .env 파일을 열어 API 키 입력:
+#   GITHUB_TOKEN=your_github_token
+#   GEMINI_API_KEY=your_gemini_api_key
+
+# 4. 설치 확인
+python -m llmdump status
+
+# 5. 논문 실험 재현 (smolagents 분석)
+python -m llmdump analyze --input submission/data/smolagents/executor_commits.jsonl --threshold 0.7
+```
 
 ## 핵심 기능
 
 - **Multi-Agent 분석**: 5개 전문 Agent (CWE-94, CWE-89, CWE-79, CWE-22, CWE-502)
 - **Adversarial Thinking**: Red Team 방법론 기반 프롬프트로 방어 우회 가능성 탐색
 - **GitHub 커밋 분석**: 저장소 커밋을 수집하고 취약점 패턴 분석
-
-## 설치 및 실행
-
-```bash
-# 1. 설치
-pip install -e .
-
-# 2. 환경 변수 설정 (.env 파일)
-GITHUB_TOKEN=your_github_token
-GEMINI_API_KEY=your_gemini_api_key
-
-# 3. 테스트
-python -m llmdump status
-python -m llmdump analyze --input submission/data/analysis/smolagents/executor_commits.jsonl
-```
 
 ## 사용법
 
