@@ -1,92 +1,62 @@
-# AI-Era CVE Analysis: Submission Package
+# LLMDump: LLM-Based Zero-Day Vulnerability Detection
 
-## 프로젝트 개요
+## Submission Package
 
-AI/ML 시스템 관련 CVE 동향 분석 및 LLM 기반 취약점 사전 탐지 연구입니다.
+이 폴더는 논문 제출용 패키지입니다.
 
-## 디렉토리 구조
+## 구조
 
 ```
 submission/
-├── README.md                    # 이 파일
-└── data/
-    └── analysis/
-        ├── ai_cves.jsonl        # AI 관련 CVE 462개
-        ├── summary.json         # 분석 요약
-        ├── figures/             # 시각화 결과
-        │   ├── fig1_cve_trend.jpg
-        │   ├── fig2_ai_cve_growth.jpg
-        │   ├── fig3_severity.jpg
-        │   └── fig4_category.jpg
-        ├── smolagents/          # LLM 탐지 실험 데이터
-        │   ├── commits.json
-        │   ├── commits_with_code.jsonl
-        │   └── ground_truth.json
-        └── experiment/          # 실험 결과
-            ├── analysis_results.jsonl
-            └── experiment_summary.json
+├── paper/                      # 논문
+│   └── llmdump_paper.tex
+├── data/                       # 실험 데이터
+│   ├── ai_cves.jsonl           # AI 관련 CVE 462개
+│   ├── experiment/             # 실험 결과
+│   │   ├── adversarial_results.jsonl    # Adversarial Thinking 실험
+│   │   └── multiagent_results.jsonl     # Multi-Agent 탐지 결과
+│   └── smolagents/             # smolagents 프로젝트 커밋 데이터
+└── figures/                    # 논문 Figure
+    ├── fig1_cve_trend_10year.jpg
+    ├── fig2_ai_cve_growth.jpg
+    ├── fig3_ai_severity_dist.jpg
+    └── fig4_ai_categories.jpg
 ```
 
-## 주요 결과
+## 주요 실험 결과
 
-### AI CVE 동향 (2023-2025)
+### 1. Multi-Agent 취약점 탐지 (smolagents)
 
-| 연도 | AI 관련 CVE | 증가율 |
-|------|------------|--------|
-| 2023 | 54 | - |
-| 2024 | 167 | +209% |
-| 2025 | 241 | +44% |
+- **대상**: huggingface/smolagents (CVE-2025-5120, CVSS 10.0)
+- **방법**: 5개 전문 Agent로 529개 Python 커밋 분석
+- **결과**: 53개 커밋 탐지, 17개(32%)가 실제 보안 관련
 
-- **총 462개** AI 관련 CVE 수집
-- **58.2%**가 HIGH 이상 심각도
-- 주요 카테고리: ML Platform, AI Service, LLM Framework, Prompt Injection
+### 2. Adversarial Thinking 프롬프트 실험
 
-### LLM 취약점 탐지 실험
+CVE-2025-5120 패치 커밋 탐지 결과:
 
-- **대상**: huggingface/smolagents
-- **Ground Truth**: CVE-2025-5120 (CVSS 10.0, Sandbox Escape)
-- **방법**: 전체 커밋 코드를 Gemini 2.5 Flash로 블라인드 분석
-- **결과**: 실험 결과 파일 참조
+| 프롬프트 | 탐지 결과 | Confidence |
+|---------|----------|------------|
+| Baseline | ❌ MISSED | 0.9 |
+| Adversarial v1 | ❌ MISSED | 0.9 |
+| **Adversarial v2** | **✅ DETECTED** | 0.9 |
 
-## 데이터 설명
-
-### ai_cves.jsonl
-
-AI 관련 CVE 목록 (JSONL 형식)
-
-```json
-{
-  "cve_id": "CVE-2025-5120",
-  "published": "2025-07-27T08:15:25.403",
-  "year": "2025",
-  "description": "A sandbox escape vulnerability...",
-  "cvss_score": 10.0,
-  "cvss_severity": "CRITICAL",
-  "cwe_ids": ["CWE-94"],
-  "keyword": "huggingface",
-  "category": "platform_ml"
-}
-```
-
-### summary.json
-
-분석 요약 통계
-
-### figures/
-
-논문용 시각화 결과 (JPG 형식)
+Adversarial v2 성공 요인: 구체적 공격 패턴(subclass walking, whitelisted module chaining)과 "Defense EXISTING ≠ Defense COMPLETE" 명시
 
 ## 재현 방법
 
 ```bash
-# 1. AI CVE 분석
-python src/scripts/analyze_ai_cve.py
+# 설치
+pip install -e .
 
-# 2. 커밋 수집 (smolagents)
-python src/scripts/collect_vulnerable_code.py
+# 상태 확인
+python -m llmdump status
 
-# 3. LLM 탐지 실험
-python src/scripts/experiment_code_analysis.py
+# 커밋 수집
+python -m llmdump collect --commits --repo huggingface/smolagents
+
+# 취약점 분석
+python -m llmdump analyze --input data/input/commits.jsonl
 ```
 
 ## 라이선스
