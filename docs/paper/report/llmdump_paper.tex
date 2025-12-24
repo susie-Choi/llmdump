@@ -205,14 +205,31 @@ Jain et al. (2025)는 CoCoNUT 벤치마크를 통해 LLM의 코드 실행 흐름
 
 \section{시스템 아키텍처}
 
-LLMDump 시스템은 데이터 수집과 LLM 분석의 두 계층으로 구성된다.
+LLMDump 시스템은 데이터 수집과 LLM 분석의 두 계층으로 구성된다. 시스템은 Python 패키지로 구현되어 CLI를 통해 사용할 수 있다.
+
+\subsection{시스템 구현}
+
+LLMDump는 Python 3.10+ 기반으로 구현되었으며, 다음과 같이 설치 및 실행할 수 있다:
+
+\begin{verbatim}
+# 설치
+pip install -e .
+
+# 상태 확인
+python -m llmdump status
+
+# 취약점 분석
+python -m llmdump analyze \
+  --input commits.jsonl \
+  --output results.jsonl
+\end{verbatim}
 
 \subsection{Spokes (데이터 수집 계층)}
 
 다양한 소스에서 원시 데이터를 수집한다:
 \begin{itemize}
 \item \texttt{CVECollector}: NVD에서 CVE 데이터 수집 (현재 255,923개)
-\item \texttt{GitHubSignalsCollector}: GitHub에서 Commit, PR, Issue 수집
+\item \texttt{GitHubCommitCollector}: GitHub에서 Commit 및 소스 코드 수집
 \item \texttt{EPSSCollector}: FIRST에서 악용 가능성 점수 수집
 \item \texttt{KEVCollector}: CISA에서 실제 악용 확인 취약점 수집
 \end{itemize}
@@ -641,10 +658,10 @@ Adversarial v1이 실패하고 v2가 성공한 이유를 분석하면:
 \item AI 관련 CVE는 2023년 이후 폭발적으로 증가하고 있다(+346\%, 54개 → 241개).
 \item AI 관련 CVE의 58.2\%가 HIGH 이상의 심각도를 보여 높은 위험성을 나타낸다.
 \item Multi-Agent LLM 앙상블이 53개 커밋을 취약점으로 탐지했으며, 이 중 17개(32\%)가 실제 보안 관련 수정이었다.
-\item XPath injection 수정 커밋을 CVE 등록 전에 탐지하여, LLM 기반 사전 탐지의 효용성을 입증했다.
+\item 기존 프롬프트는 CVE-2025-5120 패치 커밋을 탐지하지 못했으나, Adversarial Thinking 프롬프트를 적용한 결과 성공적으로 탐지했다.
 \end{enumerate}
 
-본 연구의 핵심 기여는 LLM 기반 취약점 탐지가 ``CVE 예측''이라는 좁은 목표를 넘어, 보안 검토가 필요한 코드 영역을 사전에 식별하는 도구로서 실질적 가치가 있음을 보여준 것이다. 향후 대규모 검증과 시간적 검증을 통해 시스템의 효과를 더욱 입증할 계획이다.
+본 연구의 핵심 기여는 (1) LLM 기반 취약점 탐지의 한계(``방어 코드가 있으면 안전하다''는 편향)를 식별하고, (2) Adversarial Thinking 프롬프트 전략을 통해 이를 극복할 수 있음을 실험적으로 입증한 것이다. 시스템은 \texttt{python -m llmdump} CLI를 통해 사용할 수 있으며, 소스 코드는 GitHub에 공개되어 있다.
 
 
 \begin{thebibliography}{00}
@@ -685,53 +702,48 @@ Adversarial v1이 실패하고 v2가 성공한 이유를 분석하면:
 \item \textbf{Deserialization Agent} (CWE-502): 안전하지 않은 역직렬화
 \end{itemize}
 
-\subsection{Agent 프롬프트 템플릿}
+\subsection{Adversarial Thinking 프롬프트}
+
+본 연구에서는 Red Team 방법론을 적용한 Adversarial Thinking 프롬프트를 사용한다. 핵심은 LLM이 ``공격자 관점''에서 방어 코드의 우회 가능성을 적극적으로 탐색하도록 유도하는 것이다.
 
 \begin{verbatim}
-You are a security specialist 
-focusing ONLY on {cwe_name} ({cwe_id}).
+You are a RED TEAM security researcher 
+analyzing code for {cwe_name} ({cwe_id}).
 
-Your task: Determine if this Python 
-code contains a {cwe_name} 
-vulnerability.
+## ADVERSARIAL THINKING PRINCIPLES
+1. Assume defenses can be bypassed
+2. Defense EXISTING != Defense COMPLETE
+3. Abuse whitelisted features
+4. Think beyond obvious patterns
 
-VULNERABILITY DEFINITION:
-{cwe_description}
-
-RELEVANT PATTERNS TO CHECK:
-{keywords}
+## KNOWN ATTACK PATTERNS
+{attack_patterns}
 
 FILE: {filename}
-COMMIT MESSAGE: {message}
+COMMIT: {message}
 
 ```python
 {code}
 ```
 
-ANALYSIS INSTRUCTIONS:
-1. Look ONLY for {cwe_name} patterns
-2. Check if user input can reach 
-   dangerous functions
-3. Assess if there are proper 
-   sanitization/validation
-4. Be conservative - only flag 
-   CLEAR vulnerabilities
+## YOUR TASK (Think like an ATTACKER)
+1. Identify ALL security mechanisms
+2. For EACH, brainstorm bypasses
+3. Check if whitelisted objects can 
+   chain to dangerous functionality
+4. Evaluate if defense is COMPLETE
 
-IMPORTANT: Most code is NOT 
-vulnerable. Only flag if you find 
-CLEAR evidence.
-
-Respond with JSON only:
+Respond JSON only:
 {
   "is_vulnerable": true/false,
   "confidence": 0.0-1.0,
-  "evidence": "specific code pattern",
-  "reasoning": "brief explanation"
+  "evidence": "bypass path or null",
+  "reasoning": "attacker perspective"
 }
 \end{verbatim}
 
 \subsection{결과 집계}
 
-각 Agent의 결과를 집계하여 최종 판정을 내린다. confidence $\geq$ 0.6인 경우에만 취약점으로 판정하며, 여러 Agent가 동일한 파일을 취약하다고 판정할 경우 신뢰도가 높아진다.
+각 Agent의 결과를 집계하여 최종 판정을 내린다. confidence $\geq$ 0.7인 경우에만 취약점으로 판정하며, 여러 Agent가 동일한 파일을 취약하다고 판정할 경우 신뢰도가 높아진다.
 
 \end{document}
