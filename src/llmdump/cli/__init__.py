@@ -1,14 +1,12 @@
 """
-CLI - Command Line Interface
+CLI - Command Line Interface Module
 
-ROTA command-line interface organized by module:
-- spokes: Data collection commands
-- hub: Data integration commands
-- wheel: Clustering commands
-- oracle: Prediction commands
-- axle: Evaluation commands
+Provides command-line interface for LLMDump:
+- Data collection commands
+- Neo4j loading commands
+- Prediction commands
+
+Note: Implementation planned for future development.
 """
 
-from .main import cli
-
-__all__ = ['cli']
+__all__ = []

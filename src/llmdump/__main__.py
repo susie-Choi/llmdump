@@ -1,4 +1,4 @@
-"""Allow running rota as a module: python -m rota"""
+"""Allow running llmdump as a module: python -m llmdump"""
 
 from .cli.main import cli
 

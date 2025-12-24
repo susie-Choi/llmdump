@@ -19,7 +19,7 @@ class CollectionError(Exception):
 
 class BaseCollector(ABC):
     """
-    Base class for all ROTA data collectors.
+    Base class for all LLMDump data collectors.
     
     Provides common functionality:
     - HTTP request handling with retry logic
@@ -58,7 +58,7 @@ class BaseCollector(ABC):
         
         self.session = requests.Session()
         self.session.headers.update({
-            'User-Agent': 'ROTA-Research/0.1.2'
+            'User-Agent': 'LLMDump-Research/0.2.0'
         })
     
     @abstractmethod

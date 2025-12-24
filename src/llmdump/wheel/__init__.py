@@ -6,9 +6,8 @@ Discovers vulnerability patterns through:
 - Clustering algorithms
 - Pattern discovery
 - Visualization
+
+Note: Implementation planned for future development.
 """
 
-from .clusterer import VulnerabilityClusterer
-from .features import FeatureExtractor
-
-__all__ = ['VulnerabilityClusterer', 'FeatureExtractor']
+__all__ = []

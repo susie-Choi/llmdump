@@ -1,5 +1,5 @@
 """
-End-to-end integration test for ROTA.
+End-to-end integration test for LLMDump.
 
 Tests the complete workflow:
 1. Spokes: Collect GitHub signals
@@ -15,21 +15,21 @@ from datetime import datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from rota.spokes.github import GitHubSignalsCollector
-from rota.hub.loader import DataLoader
-from rota.hub.connection import Neo4jConnection
-from rota.hub.supply_chain import SupplyChainAnalyzer
-from rota.oracle.commit_analyzer import CommitAnalyzer
-from rota.oracle.predictor import VulnerabilityOracle
+from llmdump.spokes.github import GitHubSignalsCollector
+from llmdump.hub.loader import DataLoader
+from llmdump.hub.connection import Neo4jConnection
+from llmdump.hub.supply_chain import SupplyChainAnalyzer
+from llmdump.oracle.commit_analyzer import CommitAnalyzer
+from llmdump.oracle.predictor import VulnerabilityOracle
 
 load_dotenv()
 
 
 def test_end_to_end_workflow(repository: str = None):
-    """Test complete ROTA workflow."""
+    """Test complete LLMDump workflow."""
     
     print("=" * 80)
-    print("ROTA END-TO-END INTEGRATION TEST")
+    print("LLMDump END-TO-END INTEGRATION TEST")
     print("=" * 80)
     
     # Allow custom repository or use default

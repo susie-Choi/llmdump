@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to ROTA will be documented in this file.
+All notable changes to LLMDump will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cleaned up and reorganized all documentation
 - Standardized file naming to lowercase-with-dashes convention
 - Removed outdated Korean documentation and duplicate guides
-- Updated graphiti-comparison.md to reflect current ROTA architecture
+- Updated graphiti-comparison.md to reflect current LLMDump architecture
 - Consolidated release guides into comprehensive release-guide.md
 
 ### Added
@@ -47,12 +47,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2025-10-16
 
 ### Added
-- Initial release of ROTA (Real-time Operational Threat Assessment)
-- AI-powered zero-day vulnerability prediction system
+- Initial release of LLMDump
+- LLM-powered zero-day vulnerability prediction system
 - Real-time code push analysis (< 10 seconds)
 - Historical validation framework with CVE data
 - Multi-source data collection (CVE, GitHub, EPSS, Exploit-DB)
-- Command-line interface (`rota` command)
+- Command-line interface (`llmdump` command)
 - Python API for programmatic access
 - CI/CD integration support
 - Comprehensive evaluation framework

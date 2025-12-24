@@ -1,5 +1,5 @@
 """
-ROTA - Real-time Offensive Threat Assessment
+LLMDump - LLM-powered Zero-Day Vulnerability Prediction
 
 A research framework for predicting zero-day vulnerabilities using
 behavioral signals, clustering, and temporal analysis.

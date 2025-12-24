@@ -1,19 +1,21 @@
-# ROTA Paper
+# LLMDump Paper
 
-**Title**: ROTA: Real-time Offensive Threat Assessment
+**Title**: LLMDump: LLM-powered Zero-Day Vulnerability Prediction
 
 **Status**: Draft
 
 ## Files
 
-- `rota_paper.tex` - LaTeX source file (IEEE conference format)
-- `rota_paper.pdf` - Compiled PDF
+- `rota_paper.tex` - LaTeX source file (IEEE conference format) [Legacy filename]
+- `rota_paper.pdf` - Compiled PDF [Legacy filename]
 
 ## Compilation
 
 ```bash
 pdflatex rota_paper.tex
 ```
+
+Note: Paper files retain legacy "rota" filenames for compatibility.
 
 ## Current Results
 

@@ -1,50 +1,133 @@
+---
+inclusion: always
+---
+
 # Technology Stack
 
-## Build System
-- **Package Manager**: pip with requirements.txt
-- **Build Backend**: setuptools with pyproject.toml configuration
-- **Python Version**: 3.10+ required
+## Core Technologies
 
-## Core Dependencies
-- `pyyaml>=6.0` - YAML configuration file parsing
-- `requests>=2.31.0` - HTTP API calls to package registries
-- `tqdm>=4.66.0` - Progress bars for data collection
+**Language**: Python 3.10+
 
-## Project Structure
-- Modern Python package structure with `src/` layout
-- Configuration-driven architecture using YAML files
-- Modular data source collectors in `data_sources/` directory
+**Package Management**:
+- pip with requirements.txt
+- setuptools with pyproject.toml
+
+**Database**: Neo4j 5.0+ (graph database)
+
+## Dependencies
+
+### Core
+- `pyyaml>=6.0` - Configuration parsing
+- `requests>=2.31.0` - HTTP API calls
+- `tqdm>=4.66.0` - Progress bars
+
+### Visualization
+- `matplotlib>=3.7.0` - Plotting
+- `seaborn>=0.12.0` - Statistical visualization
+- `scipy>=1.10.0` - Scientific computing
+- `statsmodels>=0.14.0` - Statistical models
+
+### Optional
+- `neo4j>=5.0` - Neo4j driver (optional: neo4j extra)
+- `py2neo>=2021.2` - Neo4j ORM (optional: neo4j extra)
+- `streamlit>=1.28.0` - Dashboard (optional: dashboard extra)
+- `plotly>=5.17.0` - Interactive plots (optional: dashboard extra)
+- `pandas>=2.0.0` - Data analysis (optional: dashboard extra)
+
+## Installation
+
+### Basic Installation
+```bash
+pip install llmdump
+```
+
+### With Neo4j Support
+```bash
+pip install llmdump[neo4j]
+```
+
+### With Dashboard
+```bash
+pip install llmdump[dashboard]
+```
+
+### Development Installation
+```bash
+git clone https://github.com/susie-Choi/llmdump.git
+cd llmdump
+pip install -e .[dev,neo4j,dashboard]
+```
+
+## Environment Setup
+
+Create `.env` file:
+```bash
+# GitHub API (for commit collection)
+GITHUB_TOKEN=your_github_token
+
+# Gemini API (for LLM code generation)
+GEMINI_API_KEY=your_gemini_api_key
+
+# Neo4j Database
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=your_password
+```
 
 ## Common Commands
 
-### Environment Setup
-```bash
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-```
-
 ### Data Collection
 ```bash
-python scripts/collect_data.py config/example_config.yaml
+# Collect all baseline data
+python src/scripts/collect_data.py --all
+
+# Collect specific sources
+python src/scripts/collect_data.py --cve --start-date 2024-01-01
+python src/scripts/collect_data.py --epss
+python src/scripts/collect_data.py --kev
+```
+
+### Neo4j Operations
+```bash
+# Start Neo4j (Docker)
+docker compose up -d
+
+# Load data to Neo4j
+python src/scripts/load_to_neo4j.py --all
+
+# Check status
+python src/scripts/check_status.py --neo4j-only
 ```
 
 ### Development
 ```bash
-# Install in development mode
-pip install -e .
+# Run tests
+pytest
+
+# Code formatting
+black src/
+
+# Type checking
+mypy src/
 ```
 
-## Environment Variables
-- `GITHUB_TOKEN` - GitHub API authentication token for higher rate limits
+## API Integrations
+
+- **NVD API**: `https://services.nvd.nist.gov/rest/json/cves/2.0`
+- **EPSS API**: `https://api.first.org/data/v1/epss`
+- **KEV Catalog**: `https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json`
+- **GitHub API**: `https://api.github.com`
+- **Exploit-DB**: Web scraping with rate limiting
 
 ## Data Storage
-- Output format: JSON Lines (.jsonl)
-- Default output directory: `data/raw/`
-- Each record contains: `source`, `package`, `collected_at`, `payload` fields
 
-## API Integrations
-- PyPI API: `https://pypi.org/pypi/{package}/json`
-- Maven Central: `https://search.maven.org/solrsearch/select`
-- npm Registry: `https://registry.npmjs.org/{package}`
-- GitHub API: `https://api.github.com`
+**Input Data**: `data/input/*.jsonl`
+- Consolidated, cleaned data ready for analysis
+
+**Output Data**: `data/output/`
+- Analysis results
+- Predictions
+- Reports
+
+**Raw Data**: `data/raw/`
+- Original API responses (for debugging)
