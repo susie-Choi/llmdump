@@ -19,31 +19,31 @@ NEO4J_URI=bolt://localhost:7687
 NEO4J_PASSWORD=your_password
 ```
 
-## 주요 기능
+## CLI 사용법
 
-### AI CVE 분석
+모든 기능은 `python -m llmdump` 명령으로 실행합니다.
 
-AI/ML 관련 CVE를 수집하고 분석합니다.
+### 상태 확인
 
 ```bash
-python src/scripts/analyze_ai_cve.py
+python -m llmdump status
 ```
 
-출력:
-- `submission/data/analysis/ai_cves.jsonl` - AI 관련 CVE 목록
-- `submission/data/analysis/summary.json` - 분석 요약
-- `submission/data/analysis/figures/` - 시각화 결과
-
-### LLM 취약점 탐지 실험
-
-GitHub 프로젝트의 코드를 LLM으로 분석하여 취약점을 탐지합니다.
+### 데이터 수집
 
 ```bash
-# 1. 커밋 수집
-python src/scripts/collect_vulnerable_code.py
+# CVE 데이터 수집
+python -m llmdump collect --cve
 
-# 2. LLM 분석
-python src/scripts/experiment_code_analysis.py
+# GitHub 커밋 수집
+python -m llmdump collect --commits --repo owner/repo
+```
+
+### 취약점 분석
+
+```bash
+# Multi-Agent 분석 (Adversarial Thinking 적용)
+python -m llmdump analyze --input data/input/commits.jsonl
 ```
 
 ## 데이터 구조
@@ -53,64 +53,19 @@ python src/scripts/experiment_code_analysis.py
 ```
 data/input/
 ├── cve.jsonl      # NVD CVE 데이터
+├── commits.jsonl  # GitHub 커밋
 ├── epss.jsonl     # EPSS 점수
 └── kev.jsonl      # KEV 목록
 ```
 
-### 분석 결과
+### 제출용 데이터
 
 ```
-submission/data/analysis/
-├── ai_cves.jsonl           # AI 관련 CVE
-├── summary.json            # 분석 요약
-├── figures/                # 시각화
-├── smolagents/             # 실험 데이터
-└── experiment/             # 실험 결과
+submission/
+├── paper/         # 논문
+├── data/          # 실험 데이터
+└── figures/       # Figure
 ```
-
-## LLM 프롬프트
-
-취약점 탐지 실험에서 사용하는 프롬프트:
-
-```
-You are a security researcher doing a code audit.
-Analyze this code for security vulnerabilities.
-
-FILE: {filename}
-COMMIT: {sha}
-MESSAGE: {message}
-
-```python
-{code}
-```
-
-Look for:
-- Code injection / arbitrary code execution
-- Sandbox escape vulnerabilities
-- Unsafe eval/exec usage
-- Input validation issues
-- Authentication/authorization bypass
-- Any other security concerns
-
-Respond with JSON only:
-{
-    "has_vulnerability": true/false,
-    "findings": [
-        {
-            "type": "vulnerability type",
-            "severity": "LOW/MEDIUM/HIGH/CRITICAL",
-            "location": "function or line",
-            "description": "what the issue is",
-            "cwe": "CWE-XXX if known"
-        }
-    ],
-    "confidence": 0.0-1.0
-}
-```
-
-- **모델**: Gemini 2.5 Flash
-- **입력**: 파일명, 커밋 SHA, 커밋 메시지, 코드
-- **출력**: JSON 형식의 취약점 분석 결과
 
 ## API 키 발급
 
